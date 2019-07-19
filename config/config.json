@@ -4,20 +4,17 @@
     "password": null,
     "database": "sports_feed",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgresql"
   },
   "test": {
-    "username": "root",
+    "username": "postgres",
     "password": null,
-    "database": "database_test",
+    "database": "anypay_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgresql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgresql"
   }
 }
