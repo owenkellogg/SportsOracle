@@ -32,16 +32,23 @@ const start =  async function() {
 
   server.route({
     method:'GET',
-    path:'/oracle-key/{id}',
+          path:'/api/oracle-key/{id}',
 	handler: handler.getOracleKey,
   });
 
 
   server.route({ 
     method:'GET',
-    path:'/games',
+   path:'/api/games',
 	handler: handler.getAllGames,
   })
+
+  server.route({ 
+    method:'GET',
+    path:'/api/games/{id}',
+	handler: handler.getGame,
+  })
+
 
 
   await server.register(Inert);

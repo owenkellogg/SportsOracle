@@ -69,13 +69,19 @@ export async function updateDailyGames(date){
 
 async function updateMLBGameToDB(game){
 
+  console.log('update game', game)
+
   if(game.schedule.playedStatus === 'COMPLETED'){
+
+    console.log('Game Completed')
     
     let record = await models.Game.findOne({where : {sports_feed_id: game.schedule.id}})
 
     if( record.signature === null ){
-      
-      let signature = await signGameResult(record.id, 1)
+
+      console.log('Signature is null')
+
+      let signature = await signGameResult(game)
 
       return signature
     }
@@ -106,7 +112,7 @@ async function writeMLBGameToDB(game){
           home_error_total: game.score.homeErrorsTotal
     })
 
-    await signGameResult(record.id, 1)
+    await signGameResult(game)
 
     return record
 
@@ -119,24 +125,37 @@ async function writeMLBGameToDB(game){
 
 }
 
-export async function signGameResult(gameId, sigId){
+export async function signGameResult(game){
 
-  let game = await models.Game.findOne({where:{id:gameId}})
+  console.log('sign game result', game)
+
+  let record = await models.Game.findOne({where:{sports_feed_id:game.schedule.id}})
+
+  record.home_score = game.score.homeScoreTotal
+
+  record.away_score = game.score.awayScoreTotal
+
+  record.away_hit_total = game.score.awayHitsTotal
+
+  record.home_hit_total = game.score.homeHitsTotal
+
+  record.away_error_total = game.score.awayErrorsTotal
+
+  record.home_eror_total = game.score.homeErrorsTotal
 
   let message = ''
   
   if( game.home_score > game.away_score){
 
-    message = `game_id=${game.id}-winning_team=HOME`
+    message = `game_id=${game.sports_feed_id}-winning_team=HOME`
 
   }else if( game.home_score < game.away_score ){
 
-    message = `game_id=${game.id}-winning_team=AWAY`
+    message = `game_id=${game.sports_feed_id}-winning_team=AWAY`
 
   }
-  else{
-    return 'No winner determined'
-  }
+
+  record.messgae = message
 
   const refPriv = new PrivateKey(process.env.PRIVATE_KEY)
 
@@ -144,13 +163,13 @@ export async function signGameResult(gameId, sigId){
 
   const signature = refereeSig.toString()
 
-  game.signature = signature
+  record.signature = signature
 
-  game.signature_id = 1
+  record.signature_id = 1
 
-  await game.save()
+  console.log(signature)
 
-  console.log(game)
+  await record.save()
 
   return signature 
 
@@ -179,3 +198,51 @@ export async function getAllGames(){
 
 }
 
+export async function getGame(sportsFeedId){
+
+ const query = `SELECT * from games where sports_feed_id = ${sportsFeedId}`
+
+ const resp = await database.query(query)
+
+ return resp[0][0]
+
+}
+
+export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKey, amount){  
+
+  
+  // Create the output script
+  var ref_pk = new PublicKey(refPubKey)
+  var home_pk = new PublicKey(homePubKey)
+  var away_pk = new PublicKey(awayPubKey)
+
+  var outputScriptData = {
+    refereePubKey: ref_pk,
+    parties: [
+        {message: `game_id=${sports_feed_id}-winning_team=HOME`, pubKey: home_pk},
+        {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
+    ]
+  }
+
+  let outScript = new OutputScript(outputScriptData)
+
+  let escrow_address = outScript.toAddress()
+
+  console.log(escrow_address.toString())
+
+  let bet = await models.Bet.create({
+  
+    sports_feed_id: sports_feed_id,
+    home_team_key: homePubKey,
+    away_team_key: awayPubKey,
+    bet_amount: amount,
+    home_winning_message: `game_id=${sports_feed_id}-winning_team=HOME`,
+    away_winning_message: `game_id=${sports_feed_id}-winning_team=AWAY`,
+    escrow_address: escrow_address.toString()
+
+  })
+  console.log(bet)
+ 
+  return bet 
+
+}

@@ -20,7 +20,6 @@ export async function getOracleKey(request){
 
 export async function getAllGames(){
 
-
   try{
 
     return await lib.getAllGames() 
@@ -31,6 +30,19 @@ export async function getAllGames(){
 
   }
 
+}
 
+
+export async function getGame(req){
+
+  try{
+
+    return await lib.getGame(req.params.id) 
+
+  }catch(error){
+
+    console.log(error)
+
+  }
 
 }

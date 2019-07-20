@@ -11,13 +11,13 @@ export default Ember.Route.extend({
      *
      */
 
-     $.getJSON('/oracle-key/1').then((resp)=>{
+     $.getJSON('/api/oracle-key/1').then((resp)=>{
 	     
        controller.set('oracleKey', resp);
 	     
      });
     
-     $.getJSON('/games').then((resp)=>{
+     $.getJSON('/api/games').then((resp)=>{
 	     
        controller.set('games', resp);
 	     
