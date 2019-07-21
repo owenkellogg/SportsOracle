@@ -241,8 +241,77 @@ export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKe
     escrow_address: escrow_address.toString()
 
   })
-  console.log(bet)
  
   return bet 
+
+}
+
+export function createKeyPair(){
+
+  const privKey = new PrivateKey();
+
+  console.log("PrivKey:", privKey.toString())
+ 
+  const pubKey = privKey.toPublicKey()
+
+  console.log("PubKey:", pubKey.toString())
+  
+
+  return {
+    "Private_Key":privKey.toString(),
+    "Public_Key": privKey.toPublicKey().toString()
+  }
+
+}
+
+export async function getEscrowUTXOS(address){
+
+//get all unspent utxos from address 
+
+
+
+/*
+ // UTXOS to be spent by winner
+var utxo1 = new Transaction.UnspentOutput({
+    txid:
+    'ab9596efa523e50f2bee749f6ae4cc40cf5bfe6fbf1556e75a4cb994e5700ebd',
+    vout: 0,
+    satoshis: 6700000,
+    scriptPubKey: 'a9144a21989c05afedbedffc20e89f0ac5c13071cb2987'
+    })
+
+var utxo2 = new Transaction.UnspentOutput({ 
+    txid:
+    'e2dcb47a6cf978ae04758041dc0fefb10e82433bc8c2935f9c9a4a9a32a358ca',
+    vout: 0,
+    satoshis: 6700000,
+    scriptPubKey: 'a9144a21989c05afedbedffc20e89f0ac5c13071cb2987' 
+})
+
+*/
+
+}
+
+export async function spendEscrow(utxos, winnerAddress, game, winnerPriv ){
+
+/*
+// Make Transaction from escrow UTXO
+sighash = (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
+
+// Satoshi's to spend minus 750 for miner fee (just to be safe)
+var amountToSpend = utxo1.satoshis - 750
+
+var spendTx = new Transaction()
+.from(utxo1) // then another transaction for utxo2
+.to(WINNERS_PREFERRED_ADDRESS, amountToSpend)
+
+var refereeSig = Signature.fromString(REFEREE_SIGNATURE_STRING)
+
+var winnerPriv = new PrivateKey("PRIVATE_KEY_IN_WIF_FORMAT")
+
+spendTx.signEscrow(0, winnerPriv , WINNING_MESSAGE, refereeSig, outScript.toScript(), sighash)
+
+console.log(spendTx.toString())
+*/
 
 }

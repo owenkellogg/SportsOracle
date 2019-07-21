@@ -1,5 +1,20 @@
 #!/usr/bin/env ts-node
 
-import {createBet} from './index';
+import {createBet, createKeyPair} from './index';
 
-createBet(1, "03e34df7c516e3a122ef72f9db4cbcd2302ac7c9ec5b1f52cd5f77740654958f31", "03ef3b289d0c08ab016153975cc028871982a621f35ab548e348ce275bb2b21eca", "029ba4d2d14a5c24e4b7b6aa953ecf24b599e2f5e944412a9d60e5878f0f6a06cd", 1)
+
+( async ()=>{
+
+  let home_team = createKeyPair();
+
+  console.log(home_team.Private_Key)
+
+  let away_team = createKeyPair()
+
+  console.log(away_team.Private_Key)
+
+  let bet = await createBet(1, home_team.Public_Key, away_team.Public_Key, "02815c4fa4e44b406a7baa2af9680ccc2c836b3400f9f5e16c7d12cdd4acc29070", .1)
+
+  console.log(bet.toJSON())
+})()
+
