@@ -7,14 +7,16 @@ import {createBet, createKeyPair} from './index';
 
   let home_team = createKeyPair();
 
-  console.log(home_team.Private_Key)
-
   let away_team = createKeyPair()
 
-  console.log(away_team.Private_Key)
-
-  let bet = await createBet(1, home_team.Public_Key, away_team.Public_Key, "02815c4fa4e44b406a7baa2af9680ccc2c836b3400f9f5e16c7d12cdd4acc29070", .1)
-
-  console.log(bet.toJSON())
+  let bet = await createBet(process.env.SPORTS_FEED_ID, home_team.Public_Key, away_team.Public_Key, process.env.PUBLIC_KEY, .1)
+  console.log({
+    "home_private": home_team.Private_Key.toString(),
+    "home_public": home_team.Private_Key.toString(),
+    "away_private": away_team.Private_Key.toString(),
+    "away_public": away_team.Private_Key.toString(),
+    "oracle_public":process.env.PUBLIC_KEY 
+  })
+  console.log(bet)
 })()
 

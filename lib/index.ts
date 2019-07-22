@@ -12,6 +12,9 @@ const Signature = jeton.Signature
 const OutputScript = jeton.escrow.OutputScript
 const Transaction = jeton.Transaction
 
+let BITBOX = require('bitbox-sdk').BITBOX;
+let bitbox = new BITBOX();
+
 export async function getAllSeasonMLBGames(){
 
   try{
@@ -223,26 +226,37 @@ export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKe
         {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
     ]
   }
-
   let outScript = new OutputScript(outputScriptData)
 
-  let escrow_address = outScript.toAddress()
+  let escrow_address = outScript.toAddress().toString()
 
-  console.log(escrow_address.toString())
+  let home_funding_address = await createFundingAddress(amount, escrow_address)
+
+  let away_funding_address = await createFundingAddress(amount, escrow_address)
+
+  console.log(outScript.toScript())
 
   let bet = await models.Bet.create({
   
     sports_feed_id: sports_feed_id,
     home_team_key: homePubKey,
     away_team_key: awayPubKey,
-    bet_amount: amount,
+    oracle_public_key: refPubKey,
+    bet_amount_usd: amount,
+    bet_amount_bch: home_funding_address.amount,  
     home_winning_message: `game_id=${sports_feed_id}-winning_team=HOME`,
     away_winning_message: `game_id=${sports_feed_id}-winning_team=AWAY`,
-    escrow_address: escrow_address.toString()
+    escrow_address: escrow_address.toString(),
+    state: "unfunded",
+    home_funding_address: home_funding_address.address,
+    home_funding_invoice_uid: home_funding_address.uid,
+    away_funding_invoice_uid: away_funding_address.uid,
+    outScript: outScript.toString(),
+    away_funding_address: away_funding_address.address
 
   })
  
-  return bet 
+  return bet.toJSON() 
 
 }
 
@@ -264,54 +278,146 @@ export function createKeyPair(){
 
 }
 
-export async function getEscrowUTXOS(address){
+export async function createFundingAddress(amount, escrowAddress){
 
-//get all unspent utxos from address 
+  try{ 
 
+    console.log(escrowAddress)
+    await http.put('https://api.anypay.global/addresses/BCH')
+      .send({
+        "address": escrowAddress,
+        "currency": "BCH"
+      })
+      .auth(process.env.ANYPAY_ACCESS_TOKEN)
+ 
+    let invoice = await http.post('https://api.anypay.global/invoices')
+      .send({
+        "amount": amount,
+        "currency": "BCH"
+      })
+      .auth(process.env.ANYPAY_ACCESS_TOKEN)
 
+    console.log(invoice.body)
+    return invoice.body
 
-/*
- // UTXOS to be spent by winner
-var utxo1 = new Transaction.UnspentOutput({
-    txid:
-    'ab9596efa523e50f2bee749f6ae4cc40cf5bfe6fbf1556e75a4cb994e5700ebd',
-    vout: 0,
-    satoshis: 6700000,
-    scriptPubKey: 'a9144a21989c05afedbedffc20e89f0ac5c13071cb2987'
-    })
-
-var utxo2 = new Transaction.UnspentOutput({ 
-    txid:
-    'e2dcb47a6cf978ae04758041dc0fefb10e82433bc8c2935f9c9a4a9a32a358ca',
-    vout: 0,
-    satoshis: 6700000,
-    scriptPubKey: 'a9144a21989c05afedbedffc20e89f0ac5c13071cb2987' 
-})
-
-*/
+  }catch(error){
+    console.log(error)
+  }
 
 }
 
-export async function spendEscrow(utxos, winnerAddress, game, winnerPriv ){
+export async function updateEscrowStatus(betID){
 
-/*
-// Make Transaction from escrow UTXO
-sighash = (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
+  try{ 
+    console.log('betId',betID)
+    let bet = await models.Bet.findOne({where:{id:betID}})
+        
+    let home_state = (await http.get(`https://api.anypay.global/invoices/${bet.home_funding_invoice_uid}`)).body
+    let away_state = (await http.get(`https://api.anypay.global/invoices/${bet.away_funding_invoice_uid}`)).body
 
-// Satoshi's to spend minus 750 for miner fee (just to be safe)
-var amountToSpend = utxo1.satoshis - 750
+    let state = 'unfunded'
 
-var spendTx = new Transaction()
-.from(utxo1) // then another transaction for utxo2
-.to(WINNERS_PREFERRED_ADDRESS, amountToSpend)
+    let home_funded = (home_state.status === 'paid' || home_state.status === 'overpaid')  
 
-var refereeSig = Signature.fromString(REFEREE_SIGNATURE_STRING)
+    let away_funded = (away_state.status === 'paid' || away_state.status === 'overpaid')  
 
-var winnerPriv = new PrivateKey("PRIVATE_KEY_IN_WIF_FORMAT")
+    if( home_funded && away_funded ){
+      state = 'funded'
+    }else if(home_funded && !away_funded){
+      state = 'partially_funded_home'
+    }else if(!home_funded && away_funded){
+      state = 'partially_funded_away'
+    }
+  
+    console.log('new state', state)
+    bet.state = state
 
-spendTx.signEscrow(0, winnerPriv , WINNING_MESSAGE, refereeSig, outScript.toScript(), sighash)
+    await bet.save()
 
-console.log(spendTx.toString())
-*/
+    return bet.toJSON()
+ 
+  }catch(error){
+    console.log(error)
+    return error
+  }
+}
 
+export async function getEscrowUTXOS(address){
+
+  //get all unspent utxos from address 
+  try {
+    let utxos = []
+    let transactions = await bitbox.Address.utxo(address);
+
+    for( let i = 0; i< transactions.utxos.length; i++){
+      
+      let details =  await bitbox.Transaction.details(transactions.utxos[i].txid)
+
+      let utxo = {
+        "txid": details.txid,
+        "vout": 0,
+        "satoshis": Math.floor(details.vout[0].value*10000000),
+        "scriptPubKey": transactions.scriptPubKey
+      }
+   
+      utxos.push(utxo)
+
+    }
+
+    return utxos
+
+  } catch(error) {
+   console.error(error)
+  }
+
+}
+
+export async function spendEscrow(utxos, winnerAddress, sports_feed_id, winner_priv, bet_id ){
+
+ try{
+
+   let game = await models.Game.findOne({where:{sports_feed_id:sports_feed_id}})
+   let bet = await models.Bet.findOne({where:{id:bet_id}})
+   let sighash = (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
+        
+    let outputScriptData = {
+      refereePubKey: bet.oracle_public_key,
+      parties: [
+        {message: `game_id=${sports_feed_id}-winning_team=HOME`, pubKey: bet.home_team_key},
+        {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: bet.away_team_key}
+      ]
+    }
+
+   let outScript = new OutputScript(outputScriptData)
+
+   let spendTxs = []
+
+   for( let i=0; i<utxos.length;i++){
+
+     let amountToSpend = utxos[i].satoshis - 750
+
+
+     let spendTx = new Transaction()
+       .from(utxos[i]) // then another transaction for utxo2
+       .to(winnerAddress, amountToSpend)
+
+
+     let refereeSig = Signature.fromString(game.signature)
+
+     let winnerPriv = new PrivateKey(winner_priv)
+
+     spendTx.signEscrow(0, winnerPriv , game.message, refereeSig, outScript.toScript(), sighash)
+
+     spendTxs.push(spendTx.toString())
+     console.log(spendTx.toString())
+  
+   }
+
+   console.log(spendTxs)
+ 
+   return spendTxs
+
+ }catch(err){
+   console.log(err)
+ }
 }

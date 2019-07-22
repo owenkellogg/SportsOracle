@@ -20,7 +20,10 @@ module.exports = {
       away_team_key: {
         type: Sequelize.STRING
       },
-      bet_amount: {
+      bet_amount_usd: {
+        type: Sequelize.FLOAT
+      },
+      bet_amount_bch: {
         type: Sequelize.FLOAT
       },
       home_winning_message: {
@@ -32,10 +35,39 @@ module.exports = {
       escrow_address: {
         type: Sequelize.STRING
       },
-      status: {
+      state: {
         type: Sequelize.STRING
       },
+      message: {
+        type: Sequelize.STRING
+      },
+      home_funding_address: {
+        type: Sequelize.STRING
+      },
+      away_funding_address: {
+        type: Sequelize.STRING
+      },
+      away_funded: {
+        type: Sequelize.STRING,
+        defaultValue: false
+      },
+      home_funded: {
+        type: Sequelize.STRING,
+        defaultValue: false
+      },
       oracle_signed_message: {
+        type: Sequelize.STRING
+      },
+      home_funding_invoice_uid: {
+        type: Sequelize.STRING
+      },
+      away_funding_invoice_uid: {
+        type: Sequelize.STRING
+      },
+      oracle_public_key: {
+        type: Sequelize.STRING
+      },
+      outScript: {
         type: Sequelize.STRING
       },
       createdAt: {
