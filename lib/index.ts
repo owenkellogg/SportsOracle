@@ -380,11 +380,18 @@ export async function spendEscrow(utxos, winnerAddress, sports_feed_id, winner_p
    let bet = await models.Bet.findOne({where:{id:bet_id}})
    let sighash = (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
         
+   console.log()
+
+    // Create the output script
+    let  ref_pk = new PublicKey(bet.oracle_public_key)
+    let  home_pk = new PublicKey(bet.home_team_key)
+    let  away_pk = new PublicKey(bet.away_team_key)
+
     let outputScriptData = {
-      refereePubKey: bet.oracle_public_key,
+      refereePubKey: ref_pk,
       parties: [
-        {message: `game_id=${sports_feed_id}-winning_team=HOME`, pubKey: bet.home_team_key},
-        {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: bet.away_team_key}
+        {message: `game_id=${sports_feed_id}-winning_team=HOME`, pubKey: home_pk},
+        {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
       ]
     }
 
@@ -408,9 +415,13 @@ export async function spendEscrow(utxos, winnerAddress, sports_feed_id, winner_p
 
      spendTx.signEscrow(0, winnerPriv , game.message, refereeSig, outScript.toScript(), sighash)
 
+
+
      spendTxs.push(spendTx.toString())
-     console.log(spendTx.toString())
   
+     let tx = await bitbox.RawTransactions.sendRawTransaction(spendTx.toString())
+
+     console.log(tx)
    }
 
    console.log(spendTxs)
