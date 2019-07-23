@@ -9,7 +9,7 @@ import {createBet, createKeyPair} from './index';
 
   let away_team = createKeyPair()
 
-  let bet = await createBet(process.env.SPORTS_FEED_ID, home_team.Public_Key, away_team.Public_Key, process.env.PUBLIC_KEY, .1)
+  let bet = await createBet(48847, home_team.Public_Key, away_team.Public_Key, process.env.PUBLIC_KEY, .1 )
   console.log({
     "home_private": home_team.Private_Key.toString(),
     "home_public": home_team.Private_Key.toString(),

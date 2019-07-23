@@ -4,11 +4,17 @@ import {spendEscrow, getEscrowUTXOS} from './index'
 
 (async function(){
 
- let utxos = await getEscrowUTXOS(process.argv[2]);
-
- console.log(utxos)
-
- let spendScripts = await spendEscrow(utxos, process.env.WINNER_ADDRESS, process.env.SPORTS_FEED_ID, process.env.WINNER_PRIVATE_KEY, 1) 
- console.log(spendScripts)
+        // let spendScripts = await spendEscrow( 1, process.env.WINNER_ADDRESS, process.env.WINNER_PRIVATE_KEY) 
+        // console.log(spendScripts)
  
+        try{
+let BITBOX = require('bitbox-sdk').BITBOX;
+let bitbox = new BITBOX();
+
+let raw = '01000000015982d24c57f984c604bcbd1ac310f00c09c1ae0fcffa62148745bf49bfb676d300000000fd680147304402202f9578707079bd4c2a8b4f22ad336b7a2d99ca9d21be0653017296bd7f1d792802202e8d24bab0a371a305a072a9313221cbc448b89690efc69f7bd3a61bf8924e514121038807a72f7379f883842c4587c02e0175022ba67e4404d1ce4b64ef5e999fb80b46304402202ffb74f4f8e78bda16f743ff43eb0195052af2fb684230cd7695b889cef5561b0220308a31ad14df2c3a9724169206726267fad116d919434fe02c09e42b9d9260620970616472657377696e4cab760970616472657377696e8763750970616472657377696e2103498e1d4875a8ba68095ad0239891e00f30b1b3b86936b115af886125115d9ff0bb76a9140d3f3ed1f0d183f7b79423fc37fd0277caa6df1f67760a6d61726c696e7377696e8763750a6d61726c696e7377696e2103498e1d4875a8ba68095ad0239891e00f30b1b3b86936b115af886125115d9ff0bb76a914c39780f4037ecd44b20633ba27c349529a42bca6686888acffffffff010f200000000000001976a914eb2a4afb765d5b5ce045afed2690d0dc8f9409f788ac00000000' 
+
+     let tx = await bitbox.RawTransactions.sendRawTransaction(raw)
+        }catch(error){console.log(error)}
 })() 
+
+

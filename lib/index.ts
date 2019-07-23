@@ -1,4 +1,3 @@
-#!/usr/bin/env ts-node
 require('dotenv').config()
 const http = require('superagent')
 import * as models from './models';
@@ -148,17 +147,21 @@ export async function signGameResult(game){
 
   let message = ''
   
-  if( game.home_score > game.away_score){
+  if( game.score.homeScoreTotal >  game.score.awayScoreTotal ){
 
-    message = `game_id=${game.sports_feed_id}-winning_team=HOME`
+    message = `game_id=${game.schedule.id}-winning_team=HOME`
 
-  }else if( game.home_score < game.away_score ){
+  }else if( game.score.homeScoreTotal <  game.score.awayScoreTotal){
 
-    message = `game_id=${game.sports_feed_id}-winning_team=AWAY`
+    message = `game_id=${game.schedule.id}-winning_team=AWAY`
 
   }
 
-  record.messgae = message
+  console.log("message", message)
+
+  console.log(game.score.homeScoreTotal <  game.score.awayScoreTotal)
+
+  record.message = message
 
   const refPriv = new PrivateKey(process.env.PRIVATE_KEY)
 
