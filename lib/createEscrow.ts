@@ -9,7 +9,7 @@ const PublicKey = jeton.PublicKey
 const Signature = jeton.Signature
 const OutputScript = jeton.escrow.OutputScript
 const Transaction = jeton.Transaction
-import {createBet, createKeyPair} from './index';
+import {createBet, createKeyPair} from './bet';
 
 
 ( async ()=>{

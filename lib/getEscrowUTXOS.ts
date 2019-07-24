@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import {getEscrowUTXOS} from './index'
+import {getEscrowUTXOS} from './bet'
 
 (async function(){
 

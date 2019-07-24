@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import {spendEscrow, getEscrowUTXOS} from './index'
+import {spendEscrow, getEscrowUTXOS} from './bet'
 
 (async function(){
 

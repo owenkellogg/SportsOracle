@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 
-import {createKeyPair} from './index'
+import {createKeyPair} from './bet'
 
 (async function(){
 
