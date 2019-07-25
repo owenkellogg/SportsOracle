@@ -71,28 +71,11 @@ export async function updateDailyGames(date){
 
 async function updateMLBGameToDB(game){
 
-  console.log('update game', game)
+  let record = await models.Game.findOne({where : {sports_feed_id: game.schedule.id}})
 
-  if(game.schedule.playedStatus === 'COMPLETED'){
+  let signature = await signGameResult(game)
 
-    console.log('Game Completed')
-    
-    let record = await models.Game.findOne({where : {sports_feed_id: game.schedule.id}})
-
-    if( record.signature === null ){
-
-      console.log('Signature is null')
-
-      let signature = await signGameResult(game)
-
-      return signature
-    }
-
-    return "GAME ALREADY SIGNED"
-
-  }
-
-  return "GAME NOT COMPLETE"
+  return signature
 
 }
 
@@ -114,6 +97,7 @@ async function writeMLBGameToDB(game){
           home_error_total: game.score.homeErrorsTotal
     })
 
+
     await signGameResult(game)
 
     return record
@@ -130,6 +114,9 @@ async function writeMLBGameToDB(game){
 //1. sign the game 
 export async function signGameResult(game){
 
+  if(game.schedule.playedStatus === 'COMPLETED'){
+    return 
+  }
   console.log('sign game result', game)
 
   let record = await models.Game.findOne({where:{sports_feed_id:game.schedule.id}})
@@ -206,6 +193,8 @@ export async function getAllGames(){
 }
 
 export async function getGame(sportsFeedId){
+ 
+ console.log(sportsFeedId)
 
  const query = `SELECT * from games where sports_feed_id = ${sportsFeedId}`
 

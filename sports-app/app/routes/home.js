@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import $ from 'jquery';
-const { inject } = Ember;
 export default Ember.Route.extend({
 
    setupController(controller) {
@@ -17,9 +16,15 @@ export default Ember.Route.extend({
 	     
      });
     
-     $.getJSON('/api/games').then((resp)=>{
+     $.getJSON('/api/games/today').then((resp)=>{
 	     
        controller.set('games', resp);
+	     
+     });
+
+     $.getJSON('/api/games/yesterday').then((resp)=>{
+	     
+       controller.set('gamesYesterday', resp);
 	     
      });
   }

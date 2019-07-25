@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('home', { path: '/' });
   this.route('game');
   this.route('test-route');
+  this.route('mlb-game', {path: 'mlb-game/:id'});
 });
 
 export default Router;

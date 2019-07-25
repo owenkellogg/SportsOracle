@@ -7,7 +7,7 @@ import {updateDailyGames} from './index';
 
   let d = new Date()
 
-  d.setDate(d.getDate() - 2);
+  d.setDate(d.getDate() -  1);
 
   await updateDailyGames(d)
   

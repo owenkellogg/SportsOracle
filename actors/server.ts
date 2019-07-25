@@ -48,8 +48,18 @@ const start =  async function() {
     path:'/api/games/{id}',
 	handler: handler.getGame,
   })
+        
+  server.route({ 
+    method:'GET',
+    path:'/api/games/today',
+	handler: handler.getTodaysGames,
+  })
 
-
+ server.route({ 
+    method:'GET',
+    path:'/api/games/yesterday',
+	handler: handler.getYesterdaysGames,
+  })
 
   await server.register(Inert);
 

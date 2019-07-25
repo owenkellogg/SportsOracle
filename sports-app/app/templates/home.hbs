@@ -1,33 +1,11 @@
-<h1>ORACLE PUBLIC KEY: 02815c4fa4e44b406a7baa2af9680ccc2c836b3400f9f5e16c7d12cdd4acc29070 </h1>
+<div>
+    <h2>Todays Games</h2>
+    {{daily-games-table games=games}}
+</div>
 
-<table class="roi">
-  <thead>
-    <tr class="roi">
-      <th class="roi">Game ID</th>
-      <th class="roi">Date</th>
-      <th class="roi">Home Team</th>
-      <th class="roi">Home Score</th>
-      <th class="roi">Away Team</th>
-      <th class="roi">Away Score</th>
-      <th class="roi">Message</th>
-      <th class="roi">Signature</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each games as |game|}}
-      <tr class="roi">
-        <td scope="col">{{game.sports_feed_id}}</td>
-        <td scope="col">{{game.date}}</td>
-        <td scope="col">{{game.home_team}}</td>
-        <td scope="col">{{game.home_score}}</td>
-        <td scope="col">{{game.away_team}}</td>
-        <td scope="col">{{game.away_score}}</td>
-        <td scope="col">{{game.message}}</td>
-        <td scope="col">{{game.signature}}</td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
-
+<div>
+    <h2>Yesterdays Games</h2>
+    {{daily-games-table games=gamesYesterday}}
+</div>
 
 {{outlet}}
