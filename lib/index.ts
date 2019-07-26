@@ -1,18 +1,13 @@
 require('dotenv').config()
 const http = require('superagent')
-import * as models from './models';
+import * as models from '../models';
 import * as database from './database'
-
 const moment = require('moment')
 const jeton = require('jeton-lib')
 const PrivateKey = jeton.PrivateKey
 const PublicKey = jeton.PublicKey
 const Signature = jeton.Signature
-const OutputScript = jeton.escrow.OutputScript
-const Transaction = jeton.Transaction
 
-let BITBOX = require('bitbox-sdk').BITBOX;
-let bitbox = new BITBOX();
 
 export async function getAllSeasonMLBGames(){
 
@@ -114,7 +109,7 @@ async function writeMLBGameToDB(game){
 //1. sign the game 
 export async function signGameResult(game){
 
-  if(game.schedule.playedStatus === 'COMPLETED'){
+  if(game.schedule.playedStatus !== 'COMPLETED'){
     return 
   }
   console.log('sign game result', game)

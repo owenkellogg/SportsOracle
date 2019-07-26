@@ -1,3 +1,65 @@
+require('dotenv').config()
+const http = require('superagent')
+import * as models from '../models';
+import * as database from './database'
+const moment = require('moment')
+const jeton = require('jeton-lib')
+const PrivateKey = jeton.PrivateKey
+const PublicKey = jeton.PublicKey
+const Signature = jeton.Signature
+const OutputScript = jeton.escrow.OutputScript
+const Transaction = jeton.Transaction
+
+let BITBOX = require('bitbox-sdk').BITBOX;
+let bitbox = new BITBOX();
+
+
+export async function createProposal(account_id, sports_feed_id, amount, message){
+
+  let account = await models.Account.findOne({where:{id:account_id}})
+
+  let proposal = await models.Proposal.create({
+    account_id: account_id,
+    public_key: account.public_key,
+    accepted: false,
+    amount: amount, 
+    sports_feed_id: sports_feed_id,
+    winning_message: message
+  })
+
+ console.log('proposal created', proposal.toJSON())
+ return proposal 
+
+}
+
+
+//I accept this proposal that takes the home team so I will take the away team
+export async function acceptProposal(proposal_id, account_id){
+  
+  let proposal = await models.Proposal.findOne({where:{id:proposal_id}})
+  
+  let account = await models.Account.findOne({where:{id:account_id}})
+
+  let awayKey = account.public_key
+
+  let homeKey = proposal.public_key
+
+  if( proposal.winning_message === 'away'){
+    awayKey = proposal.public_key
+    homeKey = account.public_key
+  }
+  let bet = await createBet(proposal.sports_feed_id,homeKey,awayKey, process.env.PUBLIC_KEY, proposal.amount)
+
+  proposal.accepted = true
+
+  await proposal.save()
+
+  console.log("proposal accepted", proposal.toJSON())
+  return bet
+
+
+}
+
 
 export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKey, amount){  
 
@@ -44,6 +106,7 @@ export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKe
 
   })
  
+  console.log("bet created", bet.toJSON())
   return bet.toJSON() 
 
 }
