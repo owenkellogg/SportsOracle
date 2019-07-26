@@ -1,0 +1,27 @@
+
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Proposal ID</th>
+      <th>Date</th>
+      <th>Team</th>
+      <th>Amount</th>
+      <th>Accept Bet</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each proposals as |proposal|}}
+      <tr>
+        <td>{{proposal.id}}</td>
+        <td>{{proposal.date}}</td>
+        <td>{{proposal.message}}</td>
+        <td>{{proposal.amount}}</td>
+        <td><button {{action "accept" proposal}}>accept</button></td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+
+
+{{yield}}

@@ -21,10 +21,10 @@ export default Ember.Route.extend({
        controller.set('games', resp);
 	     
      });
-
-     $.getJSON('/api/games/yesterday').then((resp)=>{
+   
+     $.getJSON('/api/proposals').then((resp)=>{
 	     
-       controller.set('gamesYesterday', resp);
+       controller.set('proposals', resp);
 	     
      });
   }

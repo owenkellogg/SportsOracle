@@ -77,3 +77,14 @@ export async function getYesterdaysGames(){
   }
 
 }
+
+export async function getProposals(){
+  
+  try{
+    return await api.getProposals()
+  }catch(error){
+   console.log(error)
+  }
+
+
+}

@@ -10,6 +10,19 @@ import * as handler from '../handlers'
 
 require('dotenv').config()
 
+const validate = async (request, email, password, h) => {
+
+    if (!email || !password) {
+        return { credentials: null, isValid: false };
+    }
+
+    const isValid = await Bcrypt.compare(password, user.password);
+    const credentials = { id: user.id, name: user.name };
+
+    return { isValid, credentials };
+};
+
+
 // Start the server
 const start =  async function() {
 
@@ -29,6 +42,12 @@ const start =  async function() {
 
     }
   });
+
+  server.register(require('@hapi/basic')
+
+  server.auth.strategy('simple', 'basic', { validate });
+
+
 
   server.route({
     method:'GET',
@@ -59,6 +78,12 @@ const start =  async function() {
     method:'GET',
     path:'/api/games/yesterday',
 	handler: handler.getYesterdaysGames,
+  })
+
+  server.route({ 
+    method:'GET',
+    path:'/api/proposals',
+	handler: handler.getProposals,
   })
 
   await server.register(Inert);

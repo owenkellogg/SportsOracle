@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('game');
   this.route('test-route');
   this.route('mlb-game', {path: 'mlb-game/:id'});
+  this.route('login');
 });
 
 export default Router;

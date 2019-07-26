@@ -4,7 +4,7 @@ export default Component.extend({
 
  actions: {
     bet(game){
-      console.log('game', game) 
+      console.log('accpet', proposal) 
     }
   }
 });

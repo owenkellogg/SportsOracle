@@ -42,8 +42,10 @@
     "ember-source": "~3.7.0",
     "ember-welcome-page": "^3.2.0",
     "eslint-plugin-ember": "^5.2.0",
+    "inject": "^1.0.0-beta2",
     "loader.js": "^4.7.0",
-    "qunit-dom": "^0.8.0"
+    "qunit-dom": "^0.8.0",
+    "service": "^0.1.4"
   },
   "engines": {
     "node": "6.* || 8.* || >= 10.*"

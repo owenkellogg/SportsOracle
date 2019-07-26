@@ -36,3 +36,16 @@ export async function getYesterdaysGames(){
 
 
 }
+export async function getProposals(){
+
+  try{
+    const query = `SELECT * FROM bet_proposals where "accepted" = false`
+
+    return (await database.query(query))[0]
+
+  }catch(error){
+    console.log(error)
+  }
+
+
+}
