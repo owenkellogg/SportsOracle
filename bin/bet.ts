@@ -18,6 +18,17 @@ program
  
   });
 
+program
+  .command('createkeypair')
+  .action(()=>{
+    let pair = bets.createKeyPair()
+
+    console.log(pair)
+
+    process.exit()
+
+  })
+
 //Print QR code
 program
   .command('acceptproposal <proposal_id> <publicKey>')
@@ -40,7 +51,7 @@ program
   .command('broadcastwinnings <bet_id> <winningaddress> <privateKey>')
   .action(async (bet_id, winningaddress, privateKey) => {
 
-    let propsal = await bets.broadcastWinnings(winningaddress, privateKey, bet_id )
+    let propsal = await bets.spendEscrow(winningaddress, privateKey, bet_id )
 
     process.exit();
  

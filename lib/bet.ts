@@ -110,17 +110,12 @@ export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKe
 export function createKeyPair(){
 
   const privKey = new PrivateKey();
-
-  console.log("PrivKey:", privKey.toString())
  
   const pubKey = privKey.toPublicKey()
 
-  console.log("PubKey:", pubKey.toString())
-  
-
   return {
-    "Private_Key":privKey.toString(),
-    "Public_Key": privKey.toPublicKey().toString()
+    "private_key":privKey.toString(),
+    "public_key": privKey.toPublicKey().toString()
   }
 
 }
@@ -245,24 +240,6 @@ export async function getEscrowUTXOS(address){
   }
 
 }
-
-
-export async function broadcastWinnings(winnerAddress, winnerPriv, bet_id){
-
-  let raw = await spendEscrow(winnerAddress, winnerPriv, bet_id)
-
-  for( let i =0; i< raw.length; i++){
-
-    let tx = await bitbox.RawTransactions.sendRawTransaction(raw[i].toString())
-
-    console.log(tx)
-
-  }
-
-  return "winnings broadcasted"
-
-}
-
 
 export async function spendEscrow(winnerAddress, winner_priv, bet_id ){
 
