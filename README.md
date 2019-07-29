@@ -28,10 +28,10 @@ This repository is an Oracle for MLB baseball data and a library to create escro
 
  ``` 
 
-5. (server side) Oracle confirms the escrow is funded by both parties 
+5. Oracle confirms the escrow is funded by both parties 
     - Cron proccess checks every 10 minutes
 
-6. (server side) Oracle fetches results of MLB games and signs the result with the oracles private key
+6. Oracle fetches results of MLB games and signs the result with the oracles private key
     - Cron process checks every 10 minutes 
 
 7. Winning party spends escrow with oracle signature and private key 
@@ -39,6 +39,12 @@ This repository is an Oracle for MLB baseball data and a library to create escro
     ts-node bin/bet broadcastwinnings <bet_id> <winningaddress> <privateKey>      
 
  ``` 
+
+## Utility
+```
+ts-node bin/bet createkeypair 
+
+```
 
 ## Usage
 
