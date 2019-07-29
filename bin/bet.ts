@@ -2,15 +2,17 @@ require('dotenv').config();
 
 import * as models from '../models';
 import * as bets from '../lib/bet';
+import * as api from '../lib/api';
 
 var program = require("commander");
 
 
 program
   .command('createproposal <publicKey> <sports_feed_id> <amount> <message>')
-  .action(async ( sports_feed_id, amount, message) => {
+  .action(async ( publicKey, sports_feed_id, amount, message) => {
 
-    let propsal = await bets.createProposal( sports_feed_id, publicKey, amount, message )
+    let id = parseInt(sports_feed_id, 10)
+    let propsal = await bets.createProposal( id, publicKey, amount, message )
 
     process.exit();
  
@@ -33,36 +35,69 @@ program
  
   });
 
+
 program
-  .command('claimwinnings <bet_id> <winningaddress> <privateKey>')
+  .command('broadcastwinnings <bet_id> <winningaddress> <privateKey>')
   .action(async (bet_id, winningaddress, privateKey) => {
 
-    let propsal = await bets.claimWinnings(winningaddress, privateKey, bet_id )
+    let propsal = await bets.broadcastWinnings(winningaddress, privateKey, bet_id )
 
     process.exit();
  
   });
 
+program
+  .command('updateAllEscrowStatus')
+  .action( async ()=>{
+
+    await bets.updateAllEscrowStatus()
+
+    process.exit()
+
+  });
+
+program
+  .command('updateEscrowStatus <betId>')
+  .action( async (betId)=>{
+
+   let state = await bets.updateEscrowStatus(betId)
+
+   console.log(state)
+
+   process.exit()
+
+  });
 
 program
   .command('listtodaysgames')
   .action(async ()=>{
 
+    let games = await api.getTodaysGames()
+
+    console.log(games)
     process.exit()
   })
 
 
 program
-  .commant('listbets')
+  .command('listbets')
   .action( async ()=>{
 
+    let bets = await api.getAcceptedBets()
+
+    console.log(bets)
+
     process.exit()
   })
 
 
 program
-  .commant('listproposals')
+  .command('listproposals')
   .action(async ()=>{
+
+    let proposals  = await api.getProposals()
+
+    console.log(proposals)
 
     process.exit()
   })

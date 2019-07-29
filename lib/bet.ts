@@ -153,6 +153,31 @@ export async function createFundingAddress(amount, escrowAddress){
 
 }
 
+export async function updateAllEscrowStatus(){
+
+  try{
+
+    let query = `SELECT * FROM bets where state != 'funded' `
+
+    let result = (await database.query(query))[0]
+
+    for( let i = 0; i<result.length; i++){
+
+      let state = await updateEscrowStatus(result[i].id)
+
+    }
+ 
+  }catch(error){
+
+    console.log(error)
+
+  }
+
+
+
+}
+
+
 export async function updateEscrowStatus(betID){
 
   try{ 
@@ -243,8 +268,8 @@ export async function spendEscrow(winnerAddress, winner_priv, bet_id ){
 
  try{
 
-   let game = await models.Game.findOne({where:{sports_feed_id:sports_feed_id}})
    let bet = await models.Bet.findOne({where:{id:bet_id}})
+   let game = await models.Game.findOne({where:{sports_feed_id:bet.sports_feed_id}})
    let sighash = (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
         
    console.log()
