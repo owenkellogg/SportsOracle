@@ -40,12 +40,67 @@ export async function getProposals(){
 
   try{
     const query = `SELECT * FROM bet_proposals where "accepted" = false`
+    
+    let result = (await database.query(query))[0] 
 
-    return (await database.query(query))[0]
+    for( let i=0; i<result.length;i++){
+
+      if(result[i].winning_message.includes('HOME')){
+
+        result[i].winning_message = 'Away'
+
+      }
+      else{
+
+        result[i].winning_message = 'Home'
+
+      }
+
+    }
+    console.log(result)
+    return result 
 
   }catch(error){
     console.log(error)
   }
+
+
+}
+
+export async function getAcceptedBets(){
+
+  const query = `SELECT * FROM bets`
+
+  return (await database.query(query))[0]
+
+}
+
+export async function getProposal(id){
+
+try{
+
+  const query = `SELECT * FROM bet_proposals where id = ${id}`
+
+  let result =   (await database.query(query))[0][0]
+
+  if(result.winning_message.includes('HOME')){
+
+        result.winning_message = 'Away'
+
+  }
+  else{
+
+    result.winning_message = 'Home'
+
+  }
+
+  return result
+
+}catch(error){
+
+        console.log(error)
+
+}
 
 
 }

@@ -14,13 +14,10 @@ let BITBOX = require('bitbox-sdk').BITBOX;
 let bitbox = new BITBOX();
 
 
-export async function createProposal(account_id, sports_feed_id, amount, message){
-
-  let account = await models.Account.findOne({where:{id:account_id}})
+export async function createProposal(sports_feed_id, pubKey,  amount, message){
 
   let proposal = await models.Proposal.create({
-    account_id: account_id,
-    public_key: account.public_key,
+    public_key: pubKey,
     accepted: false,
     amount: amount, 
     sports_feed_id: sports_feed_id,
@@ -34,19 +31,17 @@ export async function createProposal(account_id, sports_feed_id, amount, message
 
 
 //I accept this proposal that takes the home team so I will take the away team
-export async function acceptProposal(proposal_id, account_id){
+export async function acceptProposal(proposal_id, pubKey){
   
   let proposal = await models.Proposal.findOne({where:{id:proposal_id}})
-  
-  let account = await models.Account.findOne({where:{id:account_id}})
 
-  let awayKey = account.public_key
+  let awayKey = pubKey
 
   let homeKey = proposal.public_key
 
   if( proposal.winning_message === 'away'){
     awayKey = proposal.public_key
-    homeKey = account.public_key
+    homeKey = pubKey
   }
   let bet = await createBet(proposal.sports_feed_id,homeKey,awayKey, process.env.PUBLIC_KEY, proposal.amount)
 
@@ -55,6 +50,7 @@ export async function acceptProposal(proposal_id, account_id){
   await proposal.save()
 
   console.log("proposal accepted", proposal.toJSON())
+
   return bet
 
 
@@ -225,7 +221,25 @@ export async function getEscrowUTXOS(address){
 
 }
 
-export async function spendEscrow(utxos, winnerAddress, sports_feed_id, winner_priv, bet_id ){
+
+export async function broadcastWinnings(winnerAddress, winnerPriv, bet_id){
+
+  let raw = await spendEscrow(winnerAddress, winnerPriv, bet_id)
+
+  for( let i =0; i< raw.length; i++){
+
+    let tx = await bitbox.RawTransactions.sendRawTransaction(raw[i].toString())
+
+    console.log(tx)
+
+  }
+
+  return "winnings broadcasted"
+
+}
+
+
+export async function spendEscrow(winnerAddress, winner_priv, bet_id ){
 
  try{
 
@@ -243,14 +257,16 @@ export async function spendEscrow(utxos, winnerAddress, sports_feed_id, winner_p
     let outputScriptData = {
       refereePubKey: ref_pk,
       parties: [
-        {message: `game_id=${sports_feed_id}-winning_team=HOME`, pubKey: home_pk},
-        {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
+        {message: `game_id=${bet.sports_feed_id}-winning_team=HOME`, pubKey: home_pk},
+        {message: `game_id=${bet.sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
       ]
     }
 
    let outScript = new OutputScript(outputScriptData)
 
    let spendTxs = []
+
+   let utxos = await getEscrowUTXOS(bet.escrow_address)  
 
    for( let i=0; i<utxos.length;i++){
 

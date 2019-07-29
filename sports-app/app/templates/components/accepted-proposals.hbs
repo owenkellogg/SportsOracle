@@ -1,0 +1,36 @@
+
+<table class="pure-table">
+  <thead>
+    <tr>
+      <th>Game ID</th>
+      <th>Bet ID</th>
+      <th>Home Key</th>
+      <th>Away Key</th>
+      <th>Amount</th>
+      <th>Escrow Address</th>
+      <th>Funding State</th>
+      <th>Home invoice</th>
+      <th>Away invoice</th>
+      <th>Claim Winnings</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each bets as |bet|}}
+      <tr>
+        <td> {{#link-to "mlb-game" bet.sports_feed_id}}{{bet.sports_feed_id}}{{/link-to}}</td>
+        <td>{{bet.id}}</td>
+        <td>{{bet.home_team_key}}</td>
+        <td>{{bet.away_team_key}}</td>
+        <td>{{bet.bet_amount_usd}}</td>
+        <td><a href="https://explorer.bitcoin.com/bch/address/{{bet.escrow_address}}">{{bet.escrow_address}}</a></td>
+        <td>{{bet.state}}</td>
+        <td><a href="https://pos.anypay.global/invoices/{{bet.home_funding_invoice_uid}}">home invoice</a></td>
+        <td><a href="https://pos.anypay.global/invoices/{{bet.away_funding_invoice_uid}}">away invoice</a></td>
+        <td>  {{#link-to "claim-winnings" bet.id}}Claim Winnings!{{/link-to}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+
+{{yield}}

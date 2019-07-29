@@ -27,5 +27,12 @@ export default Ember.Route.extend({
        controller.set('proposals', resp);
 	     
      });
+     
+     $.getJSON('/api/accepted').then((resp)=>{
+	     
+       console.log('accepted', resp)
+       controller.set('accepted', resp);
+	     
+     });
   }
 })

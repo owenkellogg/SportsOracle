@@ -8,20 +8,9 @@ const Inert = require('inert');
 
 import * as handler from '../handlers'
 
+import * as Joi from 'joi';
+
 require('dotenv').config()
-
-const validate = async (request, email, password, h) => {
-
-    if (!email || !password) {
-        return { credentials: null, isValid: false };
-    }
-
-    const isValid = await Bcrypt.compare(password, user.password);
-    const credentials = { id: user.id, name: user.name };
-
-    return { isValid, credentials };
-};
-
 
 // Start the server
 const start =  async function() {
@@ -42,12 +31,6 @@ const start =  async function() {
 
     }
   });
-
-  server.register(require('@hapi/basic')
-
-  server.auth.strategy('simple', 'basic', { validate });
-
-
 
   server.route({
     method:'GET',
@@ -85,6 +68,33 @@ const start =  async function() {
     path:'/api/proposals',
 	handler: handler.getProposals,
   })
+
+ server.route({ 
+    method:'GET',
+    path:'/api/proposals/{id}',
+	handler: handler.getProposal,
+  })
+
+  //TODO valildate params
+  server.route({ 
+    method:'POST',
+    path:'/api/proposals',
+	handler: handler.createProposal,
+  })
+
+ //TODO valildate params
+  server.route({ 
+    method:'POST',
+    path:'/api/proposals/{id}',
+	handler: handler.acceptProposal,
+  })  
+
+//TODO valildate params
+  server.route({ 
+    method:'GET',
+    path:'/api/accepted',
+	handler: handler.getAcceptedBets,
+  }) 
 
   await server.register(Inert);
 

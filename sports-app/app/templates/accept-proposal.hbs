@@ -1,0 +1,10 @@
+<div>
+    <p>Team:  {{proposal.winning_message}} </p><br>
+    <p>Amount:  {{proposal.amount}} </p><br>
+    <form {{ action "submit" on="submit"}}>
+       <p>Public Key: {{input value=""}}</p>
+        <input type="submit">
+    </form>
+</div>
+
+{{outlet}}
