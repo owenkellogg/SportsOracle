@@ -212,6 +212,10 @@ export async function updateEscrowStatus(betID){
 export async function getEscrowUTXOS(address){
 
   //get all unspent utxos from address 
+        //
+        //
+        //
+  console.log('ADDRESS', address)
   try {
     let utxos = []
     let transactions = await bitbox.Address.utxo(address);
@@ -220,13 +224,14 @@ export async function getEscrowUTXOS(address){
       
       let details =  await bitbox.Transaction.details(transactions.utxos[i].txid)
 
-      console.log('scriptPubKey', details.vout[0].scriptPubKey)
+      console.log('scriptPubKey', details.vout[1].scriptPubKey)
+      console.log(details.vout[0].value)
 
       let utxo = {
         "txid": details.txid,
         "vout": 0,
-        "satoshis": Math.floor(details.vout[0].value*10000000),
-        "scriptPubKey": details.vout[0].scriptPubKey.hex
+        "satoshis": Math.floor(details.vout[1].value*10000000),
+        "scriptPubKey": details.vout[1].scriptPubKey.hex
       }
    
       utxos.push(utxo)

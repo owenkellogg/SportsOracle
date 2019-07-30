@@ -50,7 +50,7 @@ export async function updateDailyGames(date){
    
     games.forEach((game)=>{
       
-      updateMLBGameToDB(game)
+      signGameResult(game)
 
     })                  
 
@@ -63,18 +63,7 @@ export async function updateDailyGames(date){
 
 }
 
-
-async function updateMLBGameToDB(game){
-
-  let record = await models.Game.findOne({where : {sports_feed_id: game.schedule.id}})
-
-  let signature = await signGameResult(game)
-
-  return signature
-
-}
-
-async function writeMLBGameToDB(game){
+export async function writeMLBGameToDB(game){
 
   try{
 
@@ -106,7 +95,6 @@ async function writeMLBGameToDB(game){
 
 }
 
-//1. sign the game 
 export async function signGameResult(game){
 
   if(game.schedule.playedStatus !== 'COMPLETED'){
