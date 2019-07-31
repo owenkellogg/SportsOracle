@@ -215,23 +215,22 @@ export async function getEscrowUTXOS(address){
         //
         //
         //
-  console.log('ADDRESS', address)
   try {
     let utxos = []
     let transactions = await bitbox.Address.utxo(address);
 
+    console.log('transactions-- ', transactions)
     for( let i = 0; i< transactions.utxos.length; i++){
+
+      let vout = transactions.utxos[i].vout
       
       let details =  await bitbox.Transaction.details(transactions.utxos[i].txid)
 
-      console.log('scriptPubKey', details.vout[1].scriptPubKey)
-      console.log(details.vout[0].value)
-
       let utxo = {
         "txid": details.txid,
-        "vout": 0,
-        "satoshis": Math.floor(details.vout[1].value*10000000),
-        "scriptPubKey": details.vout[1].scriptPubKey.hex
+        "vout": vout,
+        "satoshis": transactions.utxos[i].satoshis,
+        "scriptPubKey": details.vout[vout].scriptPubKey.hex
       }
    
       utxos.push(utxo)

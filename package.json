@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node actors/server.ts"
+    "start": "ts-node actors/index.ts"
   },
   "author": "",
   "license": "ISC",

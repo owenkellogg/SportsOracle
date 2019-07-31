@@ -2,11 +2,21 @@
 
 This repository is an Oracle for MLB baseball data and a library to create escrow transactions on the Bitcoin Cash Blockchain 
 
+0. Create 2 Public/Private key pairs for player 1 and player 2
+
+```
+ts-node bin/bet.ts createkeypair
+ts-node bin/bet.ts createkeypair
+
+```
+
 1. Player 1 proposes bet 
 
 ```
-  ts-node bin/bet.ts listtodaysgame 
-  ts-node bin/bet.ts createproposal <public_key> <sports_feed_id> <amount> <pick (home|away> 
+ts-node bin/bet.ts listtodaysgame 
+
+//example sports_feed_id 48847 (away) is the winner   
+ts-node bin/bet.ts createproposal <public_key> <sports_feed_id> <amount> <pick (home|away> 
 
 ```
 
@@ -24,12 +34,17 @@ This repository is an Oracle for MLB baseball data and a library to create escro
 4. Player 1 and Player 2 fund the escrow via an Anypay Invoice
 
  ```
-   Pay Anypay invoices 
+ Pay Anypay invoices 
 
  ``` 
 
 5. Oracle confirms the escrow is funded by both parties 
     - Cron proccess checks every 10 minutes
+
+```
+ts-node bin/bet.ts updateEscrowStatus <betId>
+
+```
 
 6. Oracle fetches results of MLB games and signs the result with the oracles private key
     - Cron process checks every 10 minutes 
