@@ -2,7 +2,7 @@
 
 This repository is an Oracle for MLB baseball data and a library to create escrow transactions on the Bitcoin Cash Blockchain 
 
-0. Create 2 Public/Private key pairs for player 1 and player 2
+### 0. Create 2 Public/Private key pairs for player 1 and player 2
 
 ```
 ts-node bin/bet.ts createkeypair
@@ -10,7 +10,7 @@ ts-node bin/bet.ts createkeypair
 
 ```
 
-1. Player 1 proposes bet 
+### 1. Player 1 proposes bet 
 
 ```
 ts-node bin/bet.ts listtodaysgame 
@@ -20,7 +20,7 @@ ts-node bin/bet.ts createproposal <public_key> <sports_feed_id> <amount> <pick (
 
 ```
 
-2. Player 2 accepts bet 
+### 2. Player 2 accepts bet 
 
  ```
  //parameters proposal_id player_2_public_key
@@ -28,31 +28,25 @@ ts-node bin/bet.ts createproposal <public_key> <sports_feed_id> <amount> <pick (
 
  ```
  
+### 3. An escrow is created with the public key of, Player 1, Player 2 and the Oracle.
 
-3. An escrow is created with the public key of, Player 1, Player 2 and the Oracle.
-
-4. Player 1 and Player 2 fund the escrow via an Anypay Invoice
+### 4. Player 1 and Player 2 fund the escrow via an Anypay Invoice
 
  ```
  Pay Anypay invoices 
-
  ``` 
-
-5. Oracle confirms the escrow is funded by both parties 
+### 5. Oracle confirms the escrow is funded by both parties 
     - Cron proccess checks every 10 minutes
-
 ```
 ts-node bin/bet.ts updateEscrowStatus <betId>
 
 ```
-
-6. Oracle fetches results of MLB games and signs the result with the oracles private key
+### 6. Oracle fetches results of MLB games and signs the result with the oracles private key
     - Cron process checks every 10 minutes 
 
-7. Winning party spends escrow with oracle signature and private key 
+### 7. Winning party spends escrow with oracle signature and private key 
  ```
-    ts-node bin/bet broadcastwinnings <bet_id> <winningaddress> <privateKey>      
-
+ ts-node bin/bet broadcastwinnings <bet_id> <winningaddress> <privateKey>      
  ``` 
 
 ## Utility
