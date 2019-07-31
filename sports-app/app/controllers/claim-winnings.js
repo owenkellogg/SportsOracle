@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 async function claim(id, address, key){
 
-  console.log('new Proposal', sports_feed_id, proposal)
   let data = {}
 
   data['private_key'] = key;
@@ -10,7 +9,7 @@ async function claim(id, address, key){
   data['id'] = id
 
   data['address'] = address
-  
+
   let resp = await $.ajax({
       method: 'POST',
       data: data,
@@ -47,7 +46,7 @@ export default Ember.Controller.extend({
         console.log(resp)
 
         this.transitionToRoute('/')
-        
+
 
     }
 
