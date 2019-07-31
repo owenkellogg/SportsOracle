@@ -114,6 +114,8 @@ export async function acceptProposal(req){
 
   try{
 
+
+    console.log("accept proposal", req.params)
     console.log("accept proposal", req.payload)
 
     return await bet.acceptProposal(req.params.id, req.payload.public_key)
@@ -149,6 +151,21 @@ try{
 }catch(error){
   console.log(error)
 }
+
+
+}
+
+export async function claimWinnings(req){
+
+  try{
+
+    return await bet.spendEscrow(req.payload.address, req.payload.private_key, req.payload.id)
+
+  }catch(error){
+
+    console.log(error)
+
+  }
 
 
 }

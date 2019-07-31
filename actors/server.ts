@@ -89,6 +89,15 @@ const start =  async function() {
 	handler: handler.acceptProposal,
   })  
 
+ //TODO valildate params
+  server.route({ 
+    method:'POST',
+    path:'/api/claim-winnings',
+	handler: handler.claimWinnings,
+  })  
+
+
+
 //TODO valildate params
   server.route({ 
     method:'GET',

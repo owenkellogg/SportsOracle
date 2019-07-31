@@ -19,11 +19,11 @@ export async function getAllSeasonMLBGames(){
 
     let games = resp.body.games
   
-    games.forEach((game)=>{
+    for(let i = 0; i< games.length; i++){
       
-      writeMLBGameToDB(game)
+      await writeMLBGameToDB(games[i])
 
-    })                  
+    }                  
 
     console.log('done')
 
@@ -50,6 +50,7 @@ export async function updateDailyGames(date){
    
     games.forEach((game)=>{
       
+      console.log(game)
       signGameResult(game)
 
     })                  

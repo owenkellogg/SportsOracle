@@ -1,7 +1,8 @@
 <div>
     <h1> Congrats on winning! </h1>
     <form {{ action "submit" on="submit"}}>
-       <p>Private Key: {{input value=""}}</p>
+       <p>Private Key: {{input value=private_key}}</p>
+       <p>Winning Address: {{input value=address}}</p>
         <input type="submit">
     </form>
 </div>

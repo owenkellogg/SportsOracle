@@ -16,6 +16,7 @@ export default Route.extend({
 
     console.log("proposal", model)
     controller.set('proposal', model);
+    controller.set("public_key", "");
 
   }
 

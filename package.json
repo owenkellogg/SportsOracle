@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build-app": "cd sports-app && ember build --environment=production",
     "start": "ts-node actors/index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@bowstave/meta-writer": "^0.1.2",
     "@hapi/basic": "^5.1.0",
     "bitbox-sdk": "^8.4.2",
     "bitcore-lib-cash": "^8.3.4",
