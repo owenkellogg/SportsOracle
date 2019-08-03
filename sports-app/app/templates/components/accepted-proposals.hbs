@@ -1,5 +1,5 @@
 
-<table class="pure-table">
+<table class="table">
   <thead>
     <tr>
       <th>Game ID</th>
@@ -15,12 +15,12 @@
     </tr>
   </thead>
   <tbody>
-    {{#each bets as |bet|}}
+    {{!-- {{#each bets as |bet|}}--}}
       <tr>
         <td> {{#link-to "mlb-game" bet.sports_feed_id}}{{bet.sports_feed_id}}{{/link-to}}</td>
         <td>{{bet.id}}</td>
-        <td>{{bet.home_team_key}}</td>
-        <td>{{bet.away_team_key}}</td>
+        <td>123456{{bet.home_team_key}}</td>
+        <td>7891011{{bet.away_team_key}}</td>
         <td>{{bet.bet_amount_usd}}</td>
         <td><a href="https://explorer.bitcoin.com/bch/address/{{bet.escrow_address}}">{{bet.escrow_address}}</a></td>
         <td>{{bet.state}}</td>
@@ -28,7 +28,7 @@
         <td><a href="https://pos.anypay.global/invoices/{{bet.away_funding_invoice_uid}}">away invoice</a></td>
         <td>  {{#link-to "claim-winnings" bet.id}}Claim Winnings!{{/link-to}}</td>
       </tr>
-    {{/each}}
+    {{!-- {{/each}}--}}
   </tbody>
 </table>
 

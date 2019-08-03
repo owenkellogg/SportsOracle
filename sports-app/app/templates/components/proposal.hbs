@@ -1,0 +1,17 @@
+<div>
+    <p>game id:  {{game.sports_feed_id}} </p><br>
+    <p>Home team:  {{game.home_team}} </p><br>
+    <p>Away team:  {{game.away_team}} </p><br>
+    <form {{ action "submit" on="submit"}}>
+       <p>Public Key: {{input value=proposal.public_key}}</p>
+       <p>Amount: {{input value=proposal.amount}}</p>
+       <p> Home team  <input type="radio" name="home" onclick={{action (mut pick) "home"}} /></p>
+       <p> Away team  <input type="radio" name="away" onclick={{action (mut pick) "away"}} /></p>
+        <input type="submit">
+    </form>
+</div>
+
+
+
+
+{{yield}}

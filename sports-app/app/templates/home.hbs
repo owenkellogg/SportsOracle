@@ -1,9 +1,16 @@
-<div>
+{{nav-bar}}
+
+
+<div class = "container">
+
+
     <h2>Todays Games</h2>
     {{daily-games-table games=games}}
 </div>
 
 <div>
+<div class= "row">
+<div class="col-sm">
     <h2>Bet Proposals</h2>
     {{bet-proposals proposals=proposals}}
 </div>
@@ -12,6 +19,8 @@
    <h2>Accepted Bets</h2>
     {{accepted-proposals bets=accepted}}
 
+</div>
+</div>
 </div>
 
 {{outlet}}

@@ -1,4 +1,4 @@
-<table class="pure-table">
+<table class="table">
   <thead>
     <tr>
       <th>Proposal ID</th>
@@ -13,7 +13,7 @@
         <td>{{proposal.id}}</td>
         <td>{{proposal.winning_message}}</td>
         <td>{{proposal.amount}}</td>
-        <td> {{#link-to "accept-proposal" proposal.id }}<button>accept</button>{{/link-to}} </td>
+        <td> {{#link-to "accept-proposal" proposal.id }}<button type="button" class="btn btn-primary">accept</button>{{/link-to}} </td>
       </tr>
     {{/each}}
   </tbody>
