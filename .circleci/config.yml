@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: docker build 
+          command: docker build -t sports-oracle . 
+      - run: 
+          name: Docker login
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: 
+          name: Push Docker image to repo
+          command: |
+            docker tag sports-oracle anypay/sports-oracle:latest 
+            docker push anypay/sports-oracle:latest
+            docker tag sports-oracle anypay/sports-oracle:${CIRCLE_SHA1}
+            docker push anypay/sports-oracle:${CIRCLE_SHA1}
+            #- run: 
+        # name: Deployment
+         #command: ssh chef@charts.anypay.global /opt/anypay/deploy_charts.sh
