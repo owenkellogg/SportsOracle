@@ -19,4 +19,4 @@ jobs:
             docker push anypay/sports-oracle:${CIRCLE_SHA1}
       - run: 
           name: Deployment
-          command: ssh ec2-user@54.163.44.177 ./start_app,sh
+          command: ssh ec2-user@54.163.44.177 ./start_app.sh
