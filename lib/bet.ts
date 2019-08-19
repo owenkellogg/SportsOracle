@@ -1,6 +1,6 @@
 require('dotenv').config()
 const http = require('superagent')
-import * as models from '../models';
+import { models }  from './models';
 import * as database from './database'
 const moment = require('moment')
 const jeton = require('jeton-lib')
@@ -16,7 +16,7 @@ let bitbox = new BITBOX();
 
 export async function createProposal(sports_feed_id, pubKey,  amount, message){
 
-  let proposal = await models.Proposal.create({
+  let proposal = await models.BetProposal.create({
     public_key: pubKey,
     accepted: false,
     amount: amount, 

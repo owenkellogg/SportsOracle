@@ -12,10 +12,15 @@ import * as Joi from 'joi';
 
 require('dotenv').config()
 
+if (require.main === module) {
+
+  start();
+
+}
+
+
 // Start the server
-const start =  async function() {
-
-
+export  async function start() {
 
   // Create a server with a host and port
   const server=Hapi.server({

@@ -77,3 +77,18 @@ npm start
   - ANYPAY_ACCESS_TOKEN
 
 
+
+### KEY Derivation strategy
+
+Repository has 1 Master key 
+
+Each password is a derivation of the master with the path being `m/n` where n is the sum of the ascii values of the hash of the .env name
+
+for example AMQP_URL password = master.deriveChild( sha256(asciiSum('AMQP_URL'))).privateKey.toString()
+
+Each Actor has a key with the name being used to derive the key. 
+
+
+
+
+
