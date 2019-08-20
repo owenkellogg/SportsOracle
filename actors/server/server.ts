@@ -1,12 +1,12 @@
 'use strict';
 
-const Hapi=require('hapi');
-
+const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
+const HapiSwagger = require('hapi-swagger');
 const Path = require('path');
 
-const Inert = require('inert');
 
-import * as handler from '../handlers'
+import * as handler from '../../handlers'
 
 import * as Joi from 'joi';
 
@@ -17,6 +17,15 @@ if (require.main === module) {
   start();
 
 }
+
+
+const options = {
+  info: {
+     title : 'Sports Oracle API Documentation',
+     version: '0.0.1',
+  }
+};
+
 
 
 // Start the server
@@ -37,10 +46,18 @@ export  async function start() {
     }
   });
 
+  await  server.register({
+    Inert,
+    plugin: HapiSwagger,
+    options: options,
+  })
+
+
   server.route({
     method:'GET',
-          path:'/api/oracle-key/{id}',
+    path:'/api/oracle-key/{id}',
 	handler: handler.getOracleKey,
+
   });
 
 
@@ -80,12 +97,23 @@ export  async function start() {
 	handler: handler.getProposal,
   })
 
-  //TODO valildate params
   server.route({ 
     method:'POST',
     path:'/api/proposals',
 	handler: handler.createProposal,
-  })
+    options: {
+      tags: ['api'],
+      validate: {
+        payload: {
+          amount: Joi.number().required().description('Amount for the bet'),
+          message: Joi.string().required().description('Unique winning message that contatins the game id and home or away {id}.{pick} e.g. 23332.HOME indicates this proposal is to bet on game 2332 and the home to to win') ,
+          public_key: Joi.string().required().description('The proposers public key'),
+          sport: Joi.string().required().description('the sport the bet is for'),
+          game_id: Joi.number().required().description('unique identifier for the game to bet on')
+        },
+      },
+    }
+ });
 
  //TODO valildate params
   server.route({ 

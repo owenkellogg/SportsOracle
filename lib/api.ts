@@ -1,6 +1,6 @@
 require('dotenv').config()
 const http = require('superagent')
-import * as models from '../models';
+import {models} from './models';
 import * as database from './database'
 const moment = require('moment')
 

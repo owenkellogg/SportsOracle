@@ -33,14 +33,14 @@ export async function start() {
 
     log.info('create proposal', msg.content.toString());
 
-
-    log.info('message acknowledged', msg.content.toString());
-
     log.info('json parsed', json);
 
     await createProposal( json.sports_feed_id, json.public_key, json.amount, json.pick )
 
     await channel.ack(msg);
+
+    log.info('message acknowledged', msg.content.toString());
+
   });
 
 

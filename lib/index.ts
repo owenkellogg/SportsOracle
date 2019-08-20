@@ -1,6 +1,6 @@
 require('dotenv').config()
 const http = require('superagent')
-import * as models from '../models';
+import { models } from './models';
 import * as database from './database'
 const moment = require('moment')
 const jeton = require('jeton-lib')
@@ -32,8 +32,15 @@ export async function getAllSeasonMLBGames(){
   }
 }
 
-export async function updateDailyGames(date){
+export async function updateDailyGames(time, sport='all', id='all'){
 
+ //calculate prevDate and nextDate from time 
+ //get the plugin from sport 
+ //plugin.updateGames(prevDate, nextDate, id)
+
+
+
+        /*
   let day = moment(date).format('YYYYMMDD')
 
   console.log('updating games for', day)
@@ -58,7 +65,7 @@ export async function updateDailyGames(date){
 
   }catch(error){
     console.log(error)
-  }
+  }*/
 
 
 
