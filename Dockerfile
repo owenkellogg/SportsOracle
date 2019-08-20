@@ -15,7 +15,7 @@ RUN yarn global add ember-cli
 # Bundle app source
 COPY . /usr/src/app
 
-RUN cd sports-app && yarn install
+RUN cd sports-app && yarn install && cd ..
 
 RUN npm run build-app
 
