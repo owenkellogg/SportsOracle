@@ -1,4 +1,3 @@
-
 <table class="table">
   <thead>
     <tr>
@@ -11,14 +10,15 @@
   </thead>
   <tbody>
     {{!-- {{#each games as |game|}} --}}
-      <tr>
-        <td> {{#link-to "mlb-game" game.sports_feed_id}}{{game.sports_feed_id}}{{/link-to}}</td>
-        <td>{{game.date}} 08/02/2019 10:00 PM</td>
-        <td>{{game.home_team}}</td>
-        <td>{{game.away_team}}</td>
-        <td>{{#link-to "new-proposal" game.sports_feed_id}} <button type="button" class= "btn btn-primary"{{action "bet" game}}>bet</button> {{/link-to}}</td>
-      </tr>
-   {{!--{{/each}}--}}
+    <tr>
+      <td> {{#link-to "mlb-game" game.sports_feed_id}}{{game.sports_feed_id}}{{/link-to}}</td>
+      <td>{{game.date}}</td>
+      <td>{{game.home_team}}</td>
+      <td>{{game.away_team}}</td>
+      <td>{{#link-to "new-proposal" game.sports_feed_id}} <button type="button" class="btn btn-primary"
+          {{action "bet" game}}>bet</button> {{/link-to}}</td>
+    </tr>
+    {{!--{{/each}}--}}
   </tbody>
 </table>
 
