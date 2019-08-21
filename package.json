@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-app": "cd sports-app && ember build --environment=production",
-    "start": "ts-node actors/index.ts"
+    "start": "ts-node actors/server.ts"
   },
   "author": "",
   "license": "ISC",
