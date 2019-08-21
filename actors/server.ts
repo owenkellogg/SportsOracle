@@ -224,4 +224,4 @@ const start =  async function() {
 if (require.main === module) {
   start();
 }
-
+start()
