@@ -3,17 +3,23 @@
 
 <div class="container">
     <div class="col-sm">
+        <div class='card'>
+            <div class='row'>
+                <h2>Todays Games</h2>
+                {{daily-games-table games=games}}
+            </div>
+        </div>
+        <div class='card'>
+            <div class="row">
 
-        <div class='row'>
-            <h2>Todays Games</h2>
-            {{daily-games-table games=games}}
+                <h2>Bet Proposals</h2>
+                {{bet-proposals proposals=proposals}}
+            </div>
         </div>
 
-        <div class="row">
+    </div>
 
-            <h2>Bet Proposals</h2>
-            {{bet-proposals proposals=proposals}}
-        </div>
+    <div class='card'>
         <div class="row">
 
             <h2>Accepted Bets</h2>

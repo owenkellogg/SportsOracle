@@ -636,12 +636,15 @@
        *
        */
       Ember.$.getJSON('/api/oracle-key/1').then(resp => {
+        console.log('oracleKey', resp);
         controller.set('oracleKey', resp);
       });
       Ember.$.getJSON('/api/games/today').then(resp => {
+        console.log('games', resp);
         controller.set('games', resp);
       });
       Ember.$.getJSON('/api/proposals').then(resp => {
+        console.log('proposals', resp);
         controller.set('proposals', resp);
       });
       Ember.$.getJSON('/api/accepted').then(resp => {
@@ -879,8 +882,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "G2V8oBY2",
-    "block": "{\"symbols\":[\"&default\"],\"statements\":[[7,\"table\"],[11,\"class\",\"table\"],[9],[0,\"\\n  \"],[7,\"thead\"],[9],[0,\"\\n    \"],[7,\"tr\"],[9],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Game ID\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Date\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Home Team\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Away Team\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Propose Bet\"],[10],[0,\"\\n    \"],[10],[0,\"\\n  \"],[10],[0,\"\\n  \"],[7,\"tbody\"],[9],[0,\"\\n\"],[0,\"    \"],[7,\"tr\"],[9],[0,\"\\n      \"],[7,\"td\"],[9],[0,\" \"],[4,\"link-to\",[\"mlb-game\",[23,[\"game\",\"sports_feed_id\"]]],null,{\"statements\":[[1,[23,[\"game\",\"sports_feed_id\"]],false]],\"parameters\":[]},null],[10],[0,\"\\n      \"],[7,\"td\"],[9],[1,[23,[\"game\",\"date\"]],false],[10],[0,\"\\n      \"],[7,\"td\"],[9],[1,[23,[\"game\",\"home_team\"]],false],[10],[0,\"\\n      \"],[7,\"td\"],[9],[1,[23,[\"game\",\"away_team\"]],false],[10],[0,\"\\n      \"],[7,\"td\"],[9],[4,\"link-to\",[\"new-proposal\",[23,[\"game\",\"sports_feed_id\"]]],null,{\"statements\":[[0,\" \"],[7,\"button\"],[11,\"class\",\"btn btn-primary\"],[11,\"type\",\"button\"],[9],[0,\"bet\"],[3,\"action\",[[22,0,[]],\"bet\",[23,[\"game\"]]]],[10],[0,\" \"]],\"parameters\":[]},null],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[0,\"  \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\\n\"],[14,1]],\"hasEval\":false}",
+    "id": "gixPcu+b",
+    "block": "{\"symbols\":[\"game\",\"&default\"],\"statements\":[[0,\"\\n\"],[7,\"table\"],[11,\"class\",\"table\"],[9],[0,\"\\n  \"],[7,\"thead\"],[9],[0,\"\\n    \"],[7,\"tr\"],[9],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Game ID\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Date\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Home Team\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Away Team\"],[10],[0,\"\\n      \"],[7,\"th\"],[9],[0,\"Propose Bet\"],[10],[0,\"\\n    \"],[10],[0,\"\\n  \"],[10],[0,\"\\n  \"],[7,\"tbody\"],[9],[0,\"\\n\"],[4,\"each\",[[23,[\"games\"]]],null,{\"statements\":[[0,\"    \"],[7,\"tr\"],[9],[0,\"\\n      \"],[7,\"td\"],[9],[0,\" \"],[4,\"link-to\",[\"mlb-game\",[22,1,[\"sports_feed_id\"]]],null,{\"statements\":[[1,[22,1,[\"sports_feed_id\"]],false]],\"parameters\":[]},null],[10],[0,\"\\n      \"],[7,\"td\"],[9],[1,[22,1,[\"date\"]],false],[10],[0,\"\\n      \"],[7,\"td\"],[9],[1,[22,1,[\"home_team\"]],false],[10],[0,\"\\n      \"],[7,\"td\"],[9],[1,[22,1,[\"away_team\"]],false],[10],[0,\"\\n      \"],[7,\"td\"],[9],[4,\"link-to\",[\"new-proposal\",[22,1,[\"sports_feed_id\"]]],null,{\"statements\":[[0,\" \"],[7,\"button\"],[11,\"class\",\"btn btn-primary\"],[11,\"type\",\"button\"],[9],[0,\"bet\"],[3,\"action\",[[22,0,[]],\"bet\",[22,1,[]]]],[10],[0,\" \"]],\"parameters\":[]},null],[10],[0,\"\\n    \"],[10],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"  \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\\n\"],[14,2],[0,\"\\n\\n\\n\\n\"]],\"hasEval\":false}",
     "meta": {
       "moduleName": "sports-app/templates/components/daily-games-table.hbs"
     }
@@ -1005,8 +1008,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "VwSK3nRC",
-    "block": "{\"symbols\":[],\"statements\":[[1,[21,\"nav-bar\"],false],[0,\"\\n\\n\\n\"],[7,\"div\"],[11,\"class\",\"container\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"col-sm\"],[9],[0,\"\\n\\n        \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n            \"],[7,\"h2\"],[9],[0,\"Todays Games\"],[10],[0,\"\\n            \"],[1,[27,\"daily-games-table\",null,[[\"games\"],[[23,[\"games\"]]]]],false],[0,\"\\n        \"],[10],[0,\"\\n\\n        \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n\\n            \"],[7,\"h2\"],[9],[0,\"Bet Proposals\"],[10],[0,\"\\n            \"],[1,[27,\"bet-proposals\",null,[[\"proposals\"],[[23,[\"proposals\"]]]]],false],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n\\n            \"],[7,\"h2\"],[9],[0,\"Accepted Bets\"],[10],[0,\"\\n            \"],[1,[27,\"accepted-proposals\",null,[[\"bets\"],[[23,[\"accepted\"]]]]],false],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\\n\"],[1,[21,\"outlet\"],false]],\"hasEval\":false}",
+    "id": "Hgb1tOjg",
+    "block": "{\"symbols\":[],\"statements\":[[1,[21,\"nav-bar\"],false],[0,\"\\n\\n\\n\"],[7,\"div\"],[11,\"class\",\"container\"],[9],[0,\"\\n    \"],[7,\"div\"],[11,\"class\",\"col-sm\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"card\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n                \"],[7,\"h2\"],[9],[0,\"Todays Games\"],[10],[0,\"\\n                \"],[1,[27,\"daily-games-table\",null,[[\"games\"],[[23,[\"games\"]]]]],false],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"card\"],[9],[0,\"\\n            \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n\\n                \"],[7,\"h2\"],[9],[0,\"Bet Proposals\"],[10],[0,\"\\n                \"],[1,[27,\"bet-proposals\",null,[[\"proposals\"],[[23,[\"proposals\"]]]]],false],[0,\"\\n            \"],[10],[0,\"\\n        \"],[10],[0,\"\\n\\n    \"],[10],[0,\"\\n\\n    \"],[7,\"div\"],[11,\"class\",\"card\"],[9],[0,\"\\n        \"],[7,\"div\"],[11,\"class\",\"row\"],[9],[0,\"\\n\\n            \"],[7,\"h2\"],[9],[0,\"Accepted Bets\"],[10],[0,\"\\n            \"],[1,[27,\"accepted-proposals\",null,[[\"bets\"],[[23,[\"accepted\"]]]]],false],[0,\"\\n        \"],[10],[0,\"\\n    \"],[10],[0,\"\\n\"],[10],[0,\"\\n\\n\\n\"],[1,[21,\"outlet\"],false]],\"hasEval\":false}",
     "meta": {
       "moduleName": "sports-app/templates/home.hbs"
     }
@@ -1109,7 +1112,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("sports-app/app")["default"].create({"name":"sports-app","version":"0.0.0+71cc6dcb"});
+            require("sports-app/app")["default"].create({"name":"sports-app","version":"0.0.0+8bc3e801"});
           }
         
 //# sourceMappingURL=sports-app.map

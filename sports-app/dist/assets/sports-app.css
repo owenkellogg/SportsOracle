@@ -1,9 +1,5 @@
 .container {
-  margin: 30px;
-}
-
-.row {
-  margin: 30px;
+  width: 100%;
 }
 
 .col-sm {
@@ -16,4 +12,23 @@
 
 .btn {
   width: 100px;
+}
+
+h2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 20px;
+}
+
+row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 30px;
+}
+
+.card {
+  margin: 10px;
 }
