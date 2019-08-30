@@ -57,7 +57,7 @@ export async function acceptProposal(proposal_id, pubKey){
 }
 
 
-export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKey, amount){  
+export async function createBet(matchupId, homePubKey, awayPubKey, refPubKey, amount){  
 
   
   // Create the output script
@@ -84,7 +84,7 @@ export async function createBet(sports_feed_id, homePubKey, awayPubKey, refPubKe
 
   let bet = await models.Bet.create({
   
-    sports_feed_id: sports_feed_id,
+    matchupId: matchupId,
     home_team_key: homePubKey,
     away_team_key: awayPubKey,
     oracle_public_key: refPubKey,
