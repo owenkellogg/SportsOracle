@@ -40,3 +40,9 @@ row {
 .navbar-brand {
   padding-left: 20px;
 }
+.btn-warning {
+  color: #fff;
+  font-weight: bold;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
