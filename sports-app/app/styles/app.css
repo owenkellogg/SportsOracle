@@ -32,3 +32,11 @@ row {
 .card {
   margin: 10px;
 }
+
+.navbar {
+  background-color: #fbb116;
+}
+
+.navbar-brand {
+  padding-left: 20px;
+}
