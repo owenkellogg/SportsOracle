@@ -23,8 +23,8 @@
       <td>{{bet.bet_amount_usd}}</td>
       <td><a href="https://explorer.bitcoin.com/bch/address/{{bet.escrow_address}}">{{bet.escrow_address}}</a></td>
       <td>{{bet.state}}</td>
-      <td><a href="https://pos.anypay.global/invoices/{{bet.home_funding_invoice_uid}}">home invoice</a></td>
-      <td><a href="https://pos.anypay.global/invoices/{{bet.away_funding_invoice_uid}}">away invoice</a></td>
+      <td><a href="https://pos.anypay.global/invoices/{{bet.home_funding_invoice_uid}}">Home invoice</a></td>
+      <td><a href="https://pos.anypay.global/invoices/{{bet.away_funding_invoice_uid}}">Away invoice</a></td>
       <td> {{#link-to "claim-winnings" bet.id}}Claim Winnings!{{/link-to}}</td>
     </tr>
     {{!-- {{/each}}--}}
