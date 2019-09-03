@@ -1,35 +1,33 @@
-<!--<div>
-    <p>game id:  {{game.sports_feed_id}} </p><br>
-    <p>Home team:  {{game.home_team}} </p><br>
-    <p>Away team:  {{game.away_team}} </p><br>
-    <form {{ action "submit" on="submit"}}>
-       <p>Public Key: {{input value= proposal.public_key}}</p>
-       <p>Amount: {{input value= proposal.amount}}</p>
-       <p> Home team  <input type="radio" name="home" onclick={{action (mut proposal.pick) "home"}} /></p>
-       <p> Away team  <input type="radio" name="away" onclick={{action (mut proposal.pick) "away"}} /></p>
-        <input type="submit">
-    </form>
-</div>-->
+<ul class="list-group"></ul>
 
-<div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+<li class="list-group-item"> Game ID: {{game.sports_feed_id}} </li>
+<li class="list-group-item list-group-item-primary"> Home Team: {{game.home_team}}</li>
+<li class="list-group-item list-group-item-secondary">Away Team: {{game.away_team}} </li>
+
+<form {{ action "submit" on="submit"}}>
+    <div class="form-group">
+        <label for="inputPublicKey">Public Key:</label>
+        <input type="text" class="form-control" id="inputPublicKey" aria-describedby="emailHelp"
+            placeholder="Enter Public Key">
     </div>
-</div>
+    <div class="form-group">
+        <label for="inputAmount">Amount $:</label>
+        <input type="password" class="form-control" id="inputAmount" placeholder="Password">
+    </div>
+
+
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input"
+            onclick={{action (mut proposal.pick) "home"}}>
+        <label class="custom-control-label" for="customRadioInline1">{{game.home_team}}</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+        <label class="custom-control-label" for="customRadioInline2">{{game.away_team}}</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
 
 
 
