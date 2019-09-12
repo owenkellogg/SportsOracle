@@ -1,6 +1,6 @@
-#sudo docker pull anypay/SportsOracle
+docker pull anypay/sports-oracle
 
-docker build --tag sports_oracle .
+#docker build --tag sports_oracle .
 
 docker kill sports_oracle
 docker rm sports_oracle

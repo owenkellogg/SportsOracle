@@ -62,6 +62,29 @@ const start =  async function() {
 
   server.route({ 
     method:'GET',
+    path:'/api/matchups/{week}',
+	handler: handler.getWeeklyMatchups,
+    options: {
+      tags: ['api'],
+      notes: 'Returns Matchup for the given game ',
+      description: 'get weekly matchup',
+    }
+  })
+
+  server.route({ 
+    method:'GET',
+    path:'/api/teams/{leagueId}',
+	handler: handler.getFantasyTeams,
+    options: {
+      tags: ['api'],
+      notes: 'Returns Matchup fantasy teams for the week ',
+      description: 'get weekly teams',
+    }
+  })
+
+
+  server.route({ 
+    method:'GET',
     path:'/api/games/{id}',
 	handler: handler.getGame,
     options: {
