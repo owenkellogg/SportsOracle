@@ -10,20 +10,23 @@ export default Ember.Route.extend({
      *
      */
 
-     $.getJSON('/api/oracle-key/1').then((resp)=>{
+     //Need a way of determining which week it is in the football season
+     $.getJSON('/api/matchups/1/272466').then((resp)=>{
 	     
-       console.log('oracleKey', resp);
-       controller.set('oracleKey', resp);
-	     
-     });
-    
-     $.getJSON('/api/games/today').then((resp)=>{
-	     
-       console.log('games', resp);
-       controller.set('games', resp);
+       console.log('matchups', resp);
+       controller.set('matchups', resp);
 	     
      });
    
+           
+     //Need a an endpoint to return all leauges. It is fine for now because we are dealing with one league
+     $.getJSON('/api/teams/272466').then((resp)=>{
+	     
+       console.log('teams', resp);
+       controller.set('teams', resp);
+	     
+     });
+
      $.getJSON('/api/proposals').then((resp)=>{
 	     
        console.log('proposals', resp);

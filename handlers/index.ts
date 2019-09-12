@@ -127,7 +127,7 @@ export async function getWeeklyMatchups(req){
 
   try{
 
-    return await api.getWeeklyMatchups(req.params.week)
+    return await api.getWeeklyMatchups(req.params.week, req.params.leagueId)
 
   }catch(error){
     console.log(error)

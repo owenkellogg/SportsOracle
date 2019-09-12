@@ -62,7 +62,7 @@ const start =  async function() {
 
   server.route({ 
     method:'GET',
-    path:'/api/matchups/{week}',
+    path:'/api/matchups/{week}/{leagueId}',
 	handler: handler.getWeeklyMatchups,
     options: {
       tags: ['api'],

@@ -37,18 +37,47 @@ export async function getYesterdaysGames(){
 
 }
 
-export async function getWeeklyMatchups(week){
+export async function getWeeklyMatchups(week, leagueId){
 
   try{
  
-    const query = `SELECT * FROM matchups where "scoringPeriod" = ${week};`
+    const query = `SELECT * FROM matchups where "scoringPeriod" = ${week} and "leagueId" = ${leagueId}`
 
-    return (await database.query(query))[0]
+    let matchups = (await database.query(query))[0]
+
+    const query1 = `SELECT * FROM "FantasyFootballTeams" where "leagueId" = ${leagueId};`
+
+    let teams = (await database.query(query1))[0]
+
+
+    let res = matchups.map((matchup)=>{
+
+      teams.forEach((team)=>{
+
+        if(matchup.homeTeamId === team.teamId){
+         
+           matchup['homeTeamName'] = team.name
+           matchup['homeLogo'] = team.logoURL
+           matchup['homeAbbreviation'] = team.abbreviation
+        }
+
+        if(matchup.awayTeamId === team.teamId){
+          
+           matchup['awayTeamName'] = team.name
+           matchup['awayLogo'] = team.logoURL
+           matchup['awayAbbreviation'] = team.abbreviation
+        }
+
+      })
+
+      return matchup
+    })
+
+    return matchups 
 
   }catch(error){    
     console.log(error)
   }
-
 
 }
 
