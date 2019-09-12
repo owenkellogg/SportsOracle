@@ -14,13 +14,13 @@ let BITBOX = require('bitbox-sdk').BITBOX;
 let bitbox = new BITBOX();
 
 
-export async function createProposal(sports_feed_id, pubKey,  amount, message){
+export async function createProposal(gameId, pubKey,  amount, message){
 
   let proposal = await models.Proposal.create({
     public_key: pubKey,
     accepted: false,
     amount: amount, 
-    sports_feed_id: sports_feed_id,
+    matchupId: gameId,
     winning_message: message
   })
 
@@ -30,7 +30,6 @@ export async function createProposal(sports_feed_id, pubKey,  amount, message){
 }
 
 
-//I accept this proposal that takes the home team so I will take the away team
 export async function acceptProposal(proposal_id, pubKey){
   
   let proposal = await models.Proposal.findOne({where:{id:proposal_id}})
@@ -43,7 +42,7 @@ export async function acceptProposal(proposal_id, pubKey){
     awayKey = proposal.public_key
     homeKey = pubKey
   }
-  let bet = await createBet(proposal.sports_feed_id,homeKey,awayKey, process.env.PUBLIC_KEY, proposal.amount)
+  let bet = await createBet(proposal.matchupId,homeKey,awayKey, process.env.PUBLIC_KEY, proposal.amount)
 
   proposal.accepted = true
 
@@ -68,8 +67,8 @@ export async function createBet(matchupId, homePubKey, awayPubKey, refPubKey, am
   var outputScriptData = {
     refereePubKey: ref_pk,
     parties: [
-        {message: `game_id=${sports_feed_id}-winning_team=HOME`, pubKey: home_pk},
-        {message: `game_id=${sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
+        {message: `game_id=${matchupId}-winning_team=HOME`, pubKey: home_pk},
+        {message: `game_id=${matchupId}-winning_team=AWAY`, pubKey: away_pk}
     ]
   }
   let outScript = new OutputScript(outputScriptData)
@@ -90,8 +89,8 @@ export async function createBet(matchupId, homePubKey, awayPubKey, refPubKey, am
     oracle_public_key: refPubKey,
     bet_amount_usd: amount,
     bet_amount_bch: home_funding_address.amount,  
-    home_winning_message: `game_id=${sports_feed_id}-winning_team=HOME`,
-    away_winning_message: `game_id=${sports_feed_id}-winning_team=AWAY`,
+    home_winning_message: `game_id=${matchupId}-winning_team=HOME`,
+    away_winning_message: `game_id=${matchupId}-winning_team=AWAY`,
     escrow_address: escrow_address.toString(),
     state: "unfunded",
     home_funding_address: home_funding_address.address,
@@ -139,7 +138,6 @@ export async function createFundingAddress(amount, escrowAddress){
       })
       .auth(process.env.ANYPAY_ACCESS_TOKEN)
 
-    console.log(invoice.body)
     return invoice.body
 
   }catch(error){
@@ -250,7 +248,7 @@ export async function spendEscrow(winnerAddress, winner_priv, bet_id ){
  try{
 
    let bet = await models.Bet.findOne({where:{id:bet_id}})
-   let game = await models.Game.findOne({where:{sports_feed_id:bet.sports_feed_id}})
+   let game = await models.Game.findOne({where:{matchupId:bet.matchupId}})
    let sighash = (Signature.SIGHASH_ALL | Signature.SIGHASH_FORKID)
         
    console.log()
@@ -263,8 +261,8 @@ export async function spendEscrow(winnerAddress, winner_priv, bet_id ){
     let outputScriptData = {
       refereePubKey: ref_pk,
       parties: [
-        {message: `game_id=${bet.sports_feed_id}-winning_team=HOME`, pubKey: home_pk},
-        {message: `game_id=${bet.sports_feed_id}-winning_team=AWAY`, pubKey: away_pk}
+        {message: `game_id=${bet.matchupId}-winning_team=HOME`, pubKey: home_pk},
+        {message: `game_id=${bet.matchupId}-winning_team=AWAY`, pubKey: away_pk}
       ]
     }
 

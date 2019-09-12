@@ -36,6 +36,37 @@ export async function getYesterdaysGames(){
 
 
 }
+
+export async function getWeeklyMatchups(week){
+
+  try{
+ 
+    const query = `SELECT * FROM matchups where "scoringPeriod" = ${week};`
+
+    return (await database.query(query))[0]
+
+  }catch(error){    
+    console.log(error)
+  }
+
+
+}
+
+export async function getFantasyTeams(leagueId){
+
+  try{
+ 
+    const query = `SELECT * FROM "FantasyFootballTeams" where "leagueId" = ${leagueId};`
+
+    return (await database.query(query))[0]
+
+  }catch(error){    
+    console.log(error)
+  }
+
+
+}
+
 export async function getProposals(){
 
   try{

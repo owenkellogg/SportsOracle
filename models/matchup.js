@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     awayRosterId: DataTypes.INTEGER,
     seasonId: DataTypes.INTEGER,
     scoringPeriod: DataTypes.INTEGER,
+    leagueId: DataTypes.INTEGER,
   }, {});
   matchup.associate = function(models) {
     // associations can be defined here

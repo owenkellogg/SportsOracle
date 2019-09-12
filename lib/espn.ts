@@ -4,30 +4,6 @@ require('dotenv').config()
 
 import {FantasyTeam, Matchup} from '../models';
 
-export async function getBoxScores(leagueId, week){
-
-  const  myClient = new espn.Client({ leagueId: leagueId });
-
-  myClient.setCookies({ espnS2: process.env.ESPN_S2, SWID: process.env.SWID });
-
-  let boxscores = await myClient.getBoxscoreForWeek({ seasonId: 2019, scoringPeriodId: week, matchupPeriodId: week })
-
-  return boxscores
-
-}
-
-export async function getTeams(leagueId, week){
-
-  const  myClient = new espn.Client({ leagueId: leagueId });
-
-  myClient.setCookies({ espnS2: process.env.ESPN_S2, SWID: process.env.SWID });
-
-  let teams = await myClient.getTeamsAtWeek({ seasonId: 2019, scoringPeriodId: week, matchupPeriodId: week })
-
-  return teams
-
-}
-
 export async function updateLeagueTeams(leagueId, week){
 
   const  myClient = new espn.Client({ leagueId: leagueId });
@@ -54,7 +30,8 @@ export async function updateLeagueTeams(leagueId, week){
                 
 }
 
-export async function updateBoxScores(leagueId, week){
+
+export async function updateMatchups(leagueId, week){
 
   const  myClient = new espn.Client({ leagueId: leagueId });
 
@@ -63,7 +40,8 @@ export async function updateBoxScores(leagueId, week){
   const matchups = await myClient.getBoxscoreForWeek({ seasonId: 2019, scoringPeriodId: week, matchupPeriodId: week })
 
   matchups.forEach((matchup) =>{
-     
+
+    matchup['leagueId'] = leagueId
     matchup['scoringPeriod'] = week
     matchup['seasonId'] = 2019
     return Matchup.findOne({ 
@@ -84,5 +62,4 @@ export async function updateBoxScores(leagueId, week){
   })
                 
 }
-
 
