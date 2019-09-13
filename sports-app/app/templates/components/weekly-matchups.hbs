@@ -1,0 +1,29 @@
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Matchup ID</th>
+        <th>Week #</th>
+        <th>Home Team</th>
+        <th>Away Team</th>
+        <th>Propose Bet</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each matchups as |matchup|}}
+      <tr>
+        <td>{{matchup.id}}</td>
+        <td>{{matchup.scoringPeriod}}</td>
+        <td>{{matchup.homeTeamName}}</td>
+        <td>{{matchup.awayTeamName}}</td>
+        <td>{{#link-to "new-proposal" matchup.id}} <button type="button" class="btn btn-warning"
+            {{action "bet" matchup}} {{/link-to}}>Bet</button></td>
+      </tr>
+
+
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+{{yield}}

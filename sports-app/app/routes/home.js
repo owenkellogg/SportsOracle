@@ -1,8 +1,15 @@
 import Ember from 'ember';
 import $ from 'jquery';
 export default Ember.Route.extend({
+  
+   setupController(controller, model) {
 
-   setupController(controller) {
+     $.getJSON(`/api/oauth/${this.get('code')}`).then((resp)=>{
+	     
+       console.log('profile', resp);
+       controller.set('profile', resp);
+	     
+     });
 
     /* 
      *
